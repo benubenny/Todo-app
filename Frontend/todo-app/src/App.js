@@ -266,10 +266,10 @@ const TodoApp = () => {
                 <div className="space-y-2">
                   {todos.map(todo => (
                     <div
-                      key={todo._id}
-                      className={`flex items-center justify-between p-2 rounded ${
-                        todo.completed ? 'bg-gray-100' : 'bg-white'
-                      } border`}
+                    key={todo._id}
+                    className={`flex items-center justify-between p-2 rounded ${
+                      todo.completed ? 'bg-gray-100' : 'bg-white'
+                    } border`}
                     >
                       {editingId === todo._id ? (
                         <div className="flex-1 flex space-x-2">
@@ -292,18 +292,27 @@ const TodoApp = () => {
                         </div>
                       ) : (
                         <>
-                          <div className="flex items-center space-x-2">
+                          
+                          <div
+                    key={todo._id}
+                    className={`flex items-center justify-between p-2 rounded ${
+                      todo.completed ? 'bg-gray-100' : 'bg-white'
+                    } border`}
+                  />
+                          
+                          <div className="flex items-center space-x-2 flex-1 min-w-0">
                             <input
                               type="checkbox"
                               checked={todo.completed}
                               onChange={() => toggleTodo(todo._id, todo.completed)}
                               className="h-4 w-4"
                             />
-                            <span className={todo.completed ? 'line-through text-gray-500' : ''}>
-                              {todo.text}
+                            <span className={todo.completed ? 'line-through text-gray-500' : ''} >
+                            truncate max-w-[300px]`}
+                            title={todo.text}
                             </span>
                           </div>
-                          <div className="flex space-x-2">
+                          <div className="flex space-x-2 ml-2">
                             <Button
                               size="sm"
                               variant="outline"
