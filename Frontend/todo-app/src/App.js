@@ -68,12 +68,18 @@ const TodoApp = () => {
   const handleRegister = async () => {
     try {
       setIsLoading(true);
-      const response = await api.post('/api/auth/register', { username, password });
+      const response = await api.post('/api/auth/register', { username, password },
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true 
+        }
+      );
       localStorage.setItem('token', response.data.token);
       setIsLoggedIn(true);
       showAlertMessage('Registration successful');
       await fetchTodos();
     } catch (error) {
+      console.error('Registration error:', error);
       showAlertMessage(error.response?.data?.error || 'Registration failed', 'error');
     } finally {
       setIsLoading(false);
@@ -83,7 +89,12 @@ const TodoApp = () => {
   const handleLogin = async () => {
     try {
       setIsLoading(true);
-      const response = await api.post('/api/auth/login', { username, password });
+      const response = await api.post('/api/auth/login', { username, password },
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true 
+        }
+      );
       localStorage.setItem('token', response.data.token);
       setIsLoggedIn(true);
       showAlertMessage('Login successful');
@@ -107,7 +118,12 @@ const TodoApp = () => {
   // Todo functions
   const fetchTodos = async () => {
     try {
-      const response = await api.get('/api/todos');
+      const response = await api.get('/api/todos',{
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
       setTodos(response.data);
     } catch (error) {
       showAlertMessage('Error fetching todos', 'error');
